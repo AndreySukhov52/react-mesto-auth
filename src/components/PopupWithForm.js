@@ -1,37 +1,46 @@
 import React, { useEffect } from 'react';
 
-function PopupWithForm(props) {
+function PopupWithForm({ onClose, name, isOpen, onSubmit,
+	title,
+	children,
+	textButton, isValid }) {
+
 	/** Закрываем попапы по кнопке Escape */
 	useEffect(() => {
 		function onCloseEsc(evt) {
-			if (evt.key === 'Escape') {
-				props.onClose();
-			}
-		}
-		if (props.isOpen) {
-			document.addEventListener('keydown', onCloseEsc);
-		} else {
-			document.removeEventListener('keydown', onCloseEsc);
+			if (evt.key === "Escape") {
+				onClose();
+			};
 		};
-	}, [props.isOpen]);
+		if (isOpen) {
+			document.addEventListener("keydown", onCloseEsc);
+		};
+
+		/**  через `return` = `clean up`-функция. Она срабатывает при перерисовке или размонтировании */
+		return () => {
+			document.removeEventListener("keydown", onCloseEsc);
+		};
+	}, [isOpen]);
 
 	/** Закрываем попапы по  клику на Overlay */
 	useEffect(() => {
 		function onCloseOverlay(evt) {
 			if (evt.target.classList.contains('popup_opened')) {
-				props.onClose();
-			}
-		}
-		if (props.isOpen) {
-			document.addEventListener('mousedown', onCloseOverlay);
-		} else {
-			document.removeEventListener('mousedown', onCloseOverlay);
+				onClose();
+			};
 		};
-	}, [props.isOpen]);
+		if (isOpen) {
+			document.addEventListener('mousedown', onCloseOverlay);
+		};
+
+		return () => {
+			document.removeEventListener("mousedown", onCloseOverlay);
+		};
+	}, [isOpen]);
 
 	return (
 		<div
-			className={`popup popup_${props.name} ${props.isOpen ? 'popup_opened' : ''
+			className={`popup ${name} ${isOpen ? 'popup_opened' : ''
 				}`}
 		>
 			<div className="popup__container">
@@ -39,19 +48,19 @@ function PopupWithForm(props) {
 					className="popup__close"
 					type="button"
 					aria-label="Закрыть"
-					onClick={props.onClose}
+					onClick={onClose}
 				></button>
-				<h2 className="popup__title">{props.title}</h2>
+				<h2 className="popup__title">{title}</h2>
 				<form
-					className={`popup__form popup__form_type_${props.name}`}
-					name={`${props.name}-form`}
-					onSubmit={props.onSubmit}
+					className={`popup__form popup__form_type_${name}`}
+					name={`${name}-form`}
+					onSubmit={onSubmit}
 				>
-					{props.children}
+					{children}
 					<button
-						className="popup__button"
+						className={`popup__button ${isValid ? '' : 'popup__button_disabled'} `}
 						type="submit">
-						{props.textButton}
+						{textButton}
 					</button>
 				</form>
 			</div>

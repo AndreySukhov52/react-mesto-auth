@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, {useContext} from 'react';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
 function Card({ card, name, link, likes, onCardClick, onCardLike, onConfirmCardDelete }) {
@@ -9,8 +9,7 @@ function Card({ card, name, link, likes, onCardClick, onCardLike, onConfirmCardD
   const isOwn = card.owner._id === currentUser._id;
 
   /** В разметке используем переменную для условного рендеринга */
-  const cardDeleteButtonClassName = `element__delete ${!isOwn && 'element__delete_invisible'
-    }`;
+  const cardDeleteButtonClassName = `element__delete ${!isOwn && 'element__delete_invisible'}`;
 
   /** Определяем, есть ли у карточки лайк, поставленный текущим пользователем */
   const isLiked = card.likes.some((i) => i._id === currentUser._id);

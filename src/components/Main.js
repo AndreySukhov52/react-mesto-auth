@@ -1,10 +1,8 @@
-
 import pen from '../images/pen.svg';
 import buttonImage from '../images/Vector.svg';
 import React, { useContext } from 'react';
 import Card from './Card.js';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
-
 
 function Main({ onEditProfile,
   onEditAvatar,

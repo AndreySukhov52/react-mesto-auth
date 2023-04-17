@@ -1,42 +1,47 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import PopupWithForm from './PopupWithForm.js';
+import { useFormValidation } from '../utils/useFormValidation.js';
 
-function EditAvatarPopup(props){
-    const ref = useRef('');
-  
-    function handleSubmit(evt) {
-      evt.preventDefault();
-  /** Значение инпута, полученное с помощью рефа */
-      props.onUpdateAvatar({
-        avatar: ref.current.value
-      });
-    };
-  
-    useEffect(() => {
-      ref.current.value = '';
-    }, [props.isOpen]);
-  
-    return(
-      <PopupWithForm
-        isOpen = {props.isOpen}
-        onClose = {props.onClose}
-        onSubmit = {handleSubmit}
-        name="popup_avatar"
-        title="Обновить аватар"
-        textButton="Сохранить">
+function EditAvatarPopup(props) {
+  const { errors, isValid, handleChange, reset, values } = useFormValidation();
 
-        <input
-          className="popup__input popup__input_link-avatar"
-          id="inputAvatarName"
-          type="url"
-          placeholder="Ссылка на аватар"
-          required
-          ref={ref}
-        />
-        <span className="inputAvatarName-error popup__input-error" id="inputAvatarName-error"></span>
-        </PopupWithForm>
-    );
+  function handleSubmit(e) {
+    e.preventDefault();
+
+    props.onUpdateAvatar({
+      avatar: values.linkAvatar
+    });
   };
-  
-  export default EditAvatarPopup;
-  
+
+  useEffect(() => {
+    reset()
+  }, [props.isOpen]);
+
+  const errorClassName = (name) => `popup__input-error ${errors[name] ? 'popup__input-error_visible' : ''}`
+
+  return (
+    <PopupWithForm
+      isOpen={props.isOpen}
+      onClose={props.onClose}
+      onSubmit={handleSubmit}
+      name="popup_avatar"
+      title="Обновить аватар"
+      textButton="Сохранить"
+      isValid={isValid}>
+
+      <input
+        className="popup__input popup__input_link-avatar"
+        id="inputAvatarName"
+        type="url"
+        placeholder="Ссылка на аватар"
+        name='linkAvatar'
+        onChange={handleChange}
+        required
+        value={values.linkAvatar || ''}
+      />
+      <span className={errorClassName('linkAvatar')} id="inputAvatarName-error">{errors['linkAvatar']}</span>
+    </PopupWithForm>
+  );
+};
+
+export default EditAvatarPopup;

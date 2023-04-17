@@ -33,6 +33,7 @@ class Api {
 		}).then(this._checkResponse);
 	};
 
+  /** Метод редактирования аватара */
 	async changeUserAvatar(items) {
 		return fetch(`${this._baseUrl}/users/me/avatar`, {
 			method: "PATCH",

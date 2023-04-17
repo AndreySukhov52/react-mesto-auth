@@ -1,21 +1,25 @@
+import PopupWithForm from "./PopupWithForm.js";
+
 function ConfirmationPopup({ card, onClose, name, title, onCardDelete }) {
 
-    function handleDeleteClick() {
+    function handleDeleteSubmit(evt) {
+        evt.preventDefault();
         onCardDelete(card);
-        onClose();
-    }
+    };
 
     return (
-        <div className={`popup popup_${name} ${card && 'popup_opened'}`}>
-            <div className="popup__container">
-                <button onClick={onClose} className="popup__close" type="button" aria-label="закрыть"></button>
-                <h2 className="popup__title">{title}</h2>
-                <form className="popup__form popup__form_type_card-delete">
-                    <button onClick={handleDeleteClick} className="popup__button" type="submit">Да</button>
-                </form>
-            </div>
-        </div>
+        <PopupWithForm
+            onClose={onClose}
+            name={name}
+            isOpen={!!card}
+            onSubmit={handleDeleteSubmit}
+            title={title}
+            textButton="Да"
+            isValid={true}
+        />
+
     );
 };
-
 export default ConfirmationPopup;
+
+

@@ -10,6 +10,14 @@ import EditAvatarPopup from './EditAvatarPopup.js';
 import AddPlacePopup from './AddPlacePopup.js';
 import ImagePopup from './ImagePopup.js';
 import ConfirmationPopup from './ConfirmationPopup.js';
+import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
+import ProtectedRoute from './ProtectedRoute';
+import * as auth from '../utils/auth.js';
+import InfoTooltip from './InfoTooltip.js';
+import Login from './Login.js';
+import Register from './Register.js';
+import UnionBlack from '../images/UnionBlack.svg'
+import UnionRed from '../images/UnionRed.svg'
 
 function App() {
 
@@ -19,7 +27,39 @@ function App() {
   const [selectedCard, setSelectedCard] = useState(null);
   const [cards, setCards] = useState([]);
   const [currentUser, setCurrentUser] = useState({});
-  const [isConfirmationPopupOpen, setIsConfirmationPopupOpen] = useState(null);
+  const [isConfirmationPopupOpen, setIsConfirmationPopupOpen] = useState(false)
+  const [isEmail, setIsEmail] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isInfoTooltipPopupOpen, setIsInfoTooltipPopupOpen] = useState(false);
+  const [popupStatus, setPopupStatus] = useState({ image: '', message: '' });
+
+  const navigate = useNavigate();
+
+  /** Регистрация пользователя */
+  const handleRegister = (email, password) => {
+    /** отправляем запрос на сервер для регистрации пользователя */
+    auth.register(email, password)
+      .then((res) => {
+        /** сохраняем токен и email в localStorage */
+        localStorage.setItem('jwt', res.jwt);
+        localStorage.setItem('email', res.email);
+        setPopupStatus({
+          image: UnionBlack,
+          message: 'Вы успешно зарегистрировались!'
+        });
+        navigate("/sign-in");
+        /** обновляем стейт isLoggedIn и setIsEmail */
+        setIsLoggedIn(true);
+        setIsEmail(res.data.email);
+      })
+      .catch(() => {
+        setPopupStatus({
+          image: UnionRed,
+          message: 'Что-то пошло не так! Попробуйте еще раз.'
+        });
+      })
+      .finally(handleInfoTooltip);
+  };
 
   /** Эффект при монтировании */
   useEffect(() => {
