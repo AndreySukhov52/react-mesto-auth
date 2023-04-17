@@ -1,4 +1,7 @@
 .popup__title_icon {
   margin: 32px 0 0;
+  padding-top: 0;
+  padding-left: 36px;
+  padding-right: 36px;
   text-align: center;
 }

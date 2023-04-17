@@ -1,5 +1,5 @@
 .register__link {
-  color: var(--white);
+  color: white;
   text-decoration: none;
   transition: opacity 0.3s linear;
 }
