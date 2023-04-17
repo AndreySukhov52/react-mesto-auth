@@ -1,0 +1,6 @@
+.element__caption {
+  padding: 25px 15px 25px 21px;
+  max-width: 246px;
+  display: flex;
+  justify-content: space-between;
+}

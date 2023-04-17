@@ -1,0 +1,34 @@
+.header__logo {
+  max-width: 142px;
+  min-height: 33px;
+  padding: 0 0 41px;
+  object-fit: cover;
+}
+
+@media (max-width: 920px) {
+  .header__logo {
+    padding: 0 27px 41px;
+  }
+}
+
+@media (max-width: 320px) {
+  .header__logo {
+    max-width: 104px;
+    min-height: 24.4px;
+    padding: 0 0 28px 27px;
+  }
+}
+
+
+/* .header__logo {
+  width: 142px;
+  height: 33px;
+}
+
+@media screen and (max-width: 1040px) {
+  .header__logo {
+    width: 103.74px;
+    height: 24.4px;
+    padding-left: 27px;
+  }
+} */
