@@ -1,4 +1,4 @@
-# **Проект: Mesto-react**
+# **Проект: Mesto-react-auth**
 
 
 **Описание**
