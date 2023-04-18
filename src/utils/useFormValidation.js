@@ -5,8 +5,8 @@ export function useFormValidation(initialValues = {}) {
    const [errors, setErrors] = useState({})
    const [isValid, setIsValid] = useState(false)
 
-   const handleChange = (e) => {
-      const input = e.target;
+   const handleChange = (evt) => {
+      const input = evt.target;
       const name = input.name;
       const value = input.value;
 
