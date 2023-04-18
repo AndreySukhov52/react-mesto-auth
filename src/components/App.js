@@ -111,17 +111,32 @@ function App() {
     setIsInfoTooltipPopupOpen(true);
   };
 
-
   /** Эффект при монтировании */
   useEffect(() => {
-    Promise.all([api.getUserInfo(), api.getInitialCards()]).then(([data, items]) => {
-      setCurrentUser(data);
-      setCards(items);
-    })
-      .catch((error) => {
-        console.error(error);
+    if (isLoggedIn === true) {
+      navigate('/')
+    }
+  }, [isLoggedIn, navigate]);
+
+  useEffect(() => {
+    if (isLoggedIn)
+      Promise.all([api.getUserInfo(), api.getInitialCards()]).then(([data, items]) => {
+        setCurrentUser(data)
+        setCards(items)
       })
-  }, []);
+        .catch((error) => console.log(error))
+  }, [isLoggedIn]);
+
+  /** Эффект при монтировании */
+  // useEffect(() => {
+  //   Promise.all([api.getUserInfo(), api.getInitialCards()]).then(([data, items]) => {
+  //     setCurrentUser(data);
+  //     setCards(items);
+  //   })
+  //     .catch((error) => {
+  //       console.error(error);
+  //     })
+  // }, []);
 
   function handleCardLike(card) {
     /** Снова проверяем, есть ли уже лайк на этой карточке */
